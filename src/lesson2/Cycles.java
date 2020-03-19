@@ -122,9 +122,126 @@ public class Cycles {
         System.out.println(array[2]);
     }
 
+    public static int[] firstTask(int[] x) {
+        for (int i = 0; i < x.length; i++) {
+            if (x[i] == 1) {
+                x[i] = 0;
+            } else {
+                x[i] = 1;
+            }
+        }
+        for (int element : x) {
+            System.out.print(element + " ");
+        }
+        return (x);
+    }
+
+    public static int[] SecondTask(int[] x) {
+        int adding = 0;
+        for (int i = 0; i < x.length; i++) {
+            x[i] = adding;
+            adding += 3;
+        }
+        for (int element : x) {
+            System.out.print(element + " ");
+        }
+        return (x);
+    }
+
+    public static int[] ThirdTask(int[] x) {
+        for (int i = 0; i < x.length; i++) {
+            if (x[i] < 6) {
+                x[i] *= 2;
+            }
+        }
+        for (int element : x) {
+            System.out.print(element + " ");
+        }
+        return (x);
+    }
+
+    public static int[][] FourthTask(int[][] x) {
+        for (int i = 0; i < x.length; i++) {
+            x[i][i] = 1;
+            x[i][x.length - i - 1] = 1;
+        }
+        for (int i = 0; i < x.length; i++) {
+            for (int j = 0; j < x[i].length; j++)
+                System.out.print(x[i][j] + " ");
+            System.out.println(" ");
+        }
+        return (x);
+    }
+
+    public static void FifthTask(int[] x) {
+        int[] minMax = new int[]{x[0], x[0]};
+        for (int i = 1; i < x.length; i++) {
+            if (x[i] < minMax[0])
+                minMax[0] = x[i];
+            if (x[i] > minMax[1])
+                minMax[1] = x[i];
+        }
+        System.out.println("Минимальный элемент массива " + minMax[0]);
+        System.out.println("Максимальный элемент массива " + minMax[1]);
+        return;
+    }
+
+    public static boolean SixthTask(int[] x) {
+        boolean check = false;
+        for (int i = 0; i < x.length; i++) {
+            if (check) {
+                break;
+
+            }
+            int sum1 = 0;
+            int sum2 = 0;
+            for (int j = 0; j <= i; j++) {
+                sum1 += x[j];
+            }
+            for (int j = i + 1; j < x.length; j++) {
+                sum2 += x[j];
+            }
+            if (sum1 == sum2) {
+                System.out.println(sum1);
+                System.out.println(sum2);
+                check = true;
+            }
+        }
+        return check;
+    }
+    public static int[] SeventhTask(int[] x, int m){
+        for (int i = 0; i < x.length - 1; i++) {
+            int y = x[i];
+            if(i<m) {
+                if (i - m < 0) {
+                    x[i] = x[ i - m + x.length];
+                    x[ i - m + x.length] = y;
+                }
+                else{
+                    x[i] = x[ i - m ];
+                    x[i - m] = y;
+                }
+            }
+            else{
+                if ( i - m*2 < 0) {
+                    x[i] = x[i - m*2 + x.length];
+                    x[i - m*2 + x.length] = y;
+                }
+                else{
+                    x[i] = x[i - m*2];
+                    x[i - m*2] = y;
+                }
+            }
+        }
+        for (int element : x) {
+            System.out.print(element + " ");
+        }
+        return x;
+    }
+
     public static void main(String[] args) {
-        //System.out.println(Arrays.toString(generateArray(5)));
         Scanner in = new Scanner(System.in);
+        //System.out.println(Arrays.toString(generateArray(5)));
         System.out.println("Введите длину массива");
         int len = in.nextInt();
         System.out.println("Введите " + len + " чисел через пробел");
@@ -151,6 +268,29 @@ public class Cycles {
             sum += i;
         }
         System.out.println(sum);
+        int[] arrFirst = new int[]{1, 0, 1};
+        arrFirst = firstTask(arrFirst);
+        System.out.println("");
+        int[] arrSecond = new int[8];
+        arrSecond = SecondTask(arrSecond);
+        System.out.println("");
+        int[] arrThird = new int[]{1, 5, 3, 2, 11, 4, 5, 2, 4, 8, 9, 1};
+        arrThird = ThirdTask(arrThird);
+        System.out.println("");
+        System.out.println("Введите длину матрицы");
+        int ln = in.nextInt();
+        int[][] arrFourth = new int[ln][ln];
+        arrFourth = FourthTask(arrFourth);
+        System.out.println("");
+        int[] arrFifth = arrThird;
+        FifthTask(arrFifth);
+        System.out.println("");
+        int[] arrSixth = arrThird;
+        System.out.println(SixthTask(arrSixth));
+        System.out.println("");
+        System.out.println("Введите а сколько элементов нужно сдвинуть массив");
+        int m = in.nextInt();
+        int[] arrSeventh = SeventhTask(new int[]{0,1,2,3,4,5,6},m);
     }
 
 
