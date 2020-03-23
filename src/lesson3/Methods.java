@@ -36,9 +36,9 @@ public class Methods {
     static void func(int... args) {
         int sum = 0;
         for (int i = 0; i < args.length; i++) {
-            sum += args[i];
+            sum += args[i] + 5;
         }
-        System.out.println(sum);
+        System.out.println(sum + 1);
     }
 
     static void func(Object... objects) {
