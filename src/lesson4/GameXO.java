@@ -45,7 +45,9 @@ public class GameXO {
         fillTab(tab);
         System.out.println("Игра крестики нолики. Вы играете за Х");
         printTab(tab);
-        System.out.println("Для того, чтобы совершить ход введите номер строки" +
+        System.out.println("Для того, чтобы совершить" +
+                "" +
+                " ход введите номер строки" +
                 "и номер столбца таблицы");
         boolean inGame = true;
         Scanner in = new Scanner(System.in);
