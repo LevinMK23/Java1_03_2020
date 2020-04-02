@@ -17,5 +17,6 @@ public class StringExamples {
         System.out.println("aaaabcdbcd".indexOf("bcde"));
         System.out.println("123@gmail.com".matches("[a-zA-Z0-9]+@{1}[a-zA-Z0-9]+\\.[a-zA-Z0-9]+"));
 
+
     }
 }
