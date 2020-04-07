@@ -39,6 +39,18 @@ public class GameXO {
         }
     }
 
+    private boolean IsDraw(char[][] tab) {
+        boolean draw = true;
+        for (int l = 0; l < tab.length; l++) {
+            for (int j = 0; j < tab.length; j++) {
+                if (tab[l][j] == EMPTY)
+                    draw = false;
+            }
+        }
+        return draw;
+
+    }
+
     public void startGame(int fieldSize) {
         // TODO: 23.03.2020 *** fieldSize > 3, 4(WIN)
         char[][] tab = new char[fieldSize][fieldSize];
@@ -78,6 +90,11 @@ public class GameXO {
                         break;
                     }
                     // TODO: 23.03.2020 Ничья ???
+                    if (IsDraw(tab)) {
+                        System.out.println("Ничья");
+                        break;
+                    }
+
                 } else {
                     System.out.println("Данный ход невозможен! Введите новые значения");
                 }
@@ -92,22 +109,209 @@ public class GameXO {
         //..... game .....
     }
 
-    private boolean isVictory(char [][] tab, char player /*X, O*/) {
+    private boolean isVictory(char[][] tab, char player /*X, O*/) {
         // TODO: 23.03.2020
+        int winningLength = tab.length - 1;
+        if (winningLength > 4)
+            winningLength = 4;
+        for (int x = 0; x < tab[0].length; x++)
+            for (int y = 0; y < tab.length; y++)
+                if (tab[y][x] == player) {
+                    int winStreak;
+                    for (int i = 1; i <= winningLength; i++) {
+                        if (x - winningLength < 0 || x + winningLength >= tab.length)
+                            break;
+                        if (player != tab[y][x + i])
+                            break;
+                        if (i == winningLength)
+                            return true;
+                    }
+                    for (int i = 1; i <= winningLength; i++) {
+                        if (x - winningLength < 0 || x - winningLength >= tab.length)
+                            break;
+                        if (player != tab[y][x - i])
+                            break;
+                        if (i == winningLength)
+                            return true;
+                    }
+
+                    for (int i = 1; i <= winningLength; i++) {
+                        if (y - winningLength < 0 || y - winningLength >= tab.length)
+                            break;
+                        if (player != tab[y - i][x])
+                            break;
+                        if (i == winningLength)
+                            return true;
+                    }
+                    for (int i = 0; i <= winningLength; i++) {
+                        if (y + winningLength < 0 || y + winningLength >= tab.length)
+                            break;
+                        if (player != tab[y + i][x])
+                            break;
+                        if (i == winningLength)
+                            return true;
+                    }
+
+                    for (int i = 1; i <= winningLength; i++) {
+                        if (y + winningLength < 0 || y + winningLength >= tab.length || x + winningLength < 0 || x + winningLength >= tab.length)
+                            break;
+                        if (player != tab[y + i][x + i])
+                            break;
+                        if (i == winningLength)
+                            return true;
+                    }
+                    for (int i = 1; i <= winningLength; i++) {
+                        if (y - winningLength < 0 || y - i >= tab.length || x + i < 0 || x + i >= tab.length)
+                            break;
+                        if (player != tab[y - i][x + i])
+                            break;
+                        if (i == winningLength)
+                            return true;
+                    }
+                    for (int i = 1; i <= winningLength; i++) {
+                        if (y + winningLength < 0 || y + winningLength >= tab.length || x - winningLength < 0 || x - winningLength >= tab.length)
+                            break;
+                        if (player != tab[y + i][x - i])
+                            break;
+                        if (i == winningLength)
+                            return true;
+                    }
+                    for (int i = 1; i <= winningLength; i++) {
+                        if (y - winningLength < 0 || y - winningLength >= tab.length || x - winningLength < 0 || x - winningLength >= tab.length)
+                            break;
+                        if (player != tab[y - i][x - i])
+                            break;
+                        if (i == winningLength)
+                            return true;
+                    }
+                }
         return false;
+    }
+
+    private int[] Danger(char[][] tab, char player /*X, O*/) {
+        // TODO: 23.03.2020
+        int winningLength = tab.length - 1;
+        if (winningLength > 4)
+            winningLength = 4;
+        int[] arr = {-1, -1};
+        for (int x = 0; x < tab[0].length; x++)
+            for (int y = 0; y < tab.length; y++)
+                if (tab[y][x] == player) {
+                    int winStreak;
+                    for (int i = 1; i <= winningLength - 1; i++) {
+                        if (x - winningLength < 0 || x + winningLength >= tab.length)
+                            break;
+                        if (player != tab[y][x + i])
+                            break;
+                        if (i == winningLength - 1) {
+                            arr[0] = y;
+                            arr[1] = x + winningLength;
+                            return arr;
+                        }
+                    }
+                    for (int i = 1; i <= winningLength - 1; i++) {
+                        if (x - winningLength < 0 || x - winningLength >= tab.length)
+                            break;
+                        if (player != tab[y][x - i])
+                            break;
+                        if (i == winningLength - 1) {
+                            arr[0] = y;
+                            arr[1] = x - winningLength;
+                            return arr;
+                        }
+                    }
+
+                    for (int i = 1; i <= winningLength-1; i++) {
+                        if (y - winningLength < 0 || y - winningLength >= tab.length)
+                            break;
+                        if (player != tab[y - i][x])
+                            break;
+                        if (i == winningLength-1) {
+                            arr[0] = y - winningLength;
+                            arr[1] = x;
+                            return arr;
+                        }
+                    }
+                    for (int i = 0; i <= winningLength-1; i++) {
+                        if (y + winningLength < 0 || y + winningLength >= tab.length)
+                            break;
+                        if (player != tab[y + i][x])
+                            break;
+                        if (i == winningLength-1) {
+                            arr[0] = y + winningLength;
+                            arr[1] = x;
+                            return arr;
+                        }
+                    }
+
+                    for (int i = 1; i <= winningLength-1; i++) {
+                        if (y + winningLength < 0 || y + winningLength >= tab.length || x + winningLength < 0 || x + winningLength >= tab.length)
+                            break;
+                        if (player != tab[y + i][x + i])
+                            break;
+                        if (i == winningLength-1) {
+                            arr[0] = y + winningLength;
+                            arr[1] = x + winningLength;
+                            return arr;
+                        }
+                    }
+                    for (int i = 1; i <= winningLength-1; i++) {
+                        if (y - winningLength < 0 || y - i >= tab.length || x + i < 0 || x + i >= tab.length)
+                            break;
+                        if (player != tab[y - i][x + i])
+                            break;
+                        if (i == winningLength-1) {
+                            arr[0] = y - winningLength;
+                            arr[1] = x + winningLength;
+                            return arr;
+                        }
+                    }
+                    for (int i = 1; i <= winningLength-1; i++) {
+                        if (y + winningLength < 0 || y + winningLength >= tab.length || x - winningLength < 0 || x - winningLength >= tab.length)
+                            break;
+                        if (player != tab[y + i][x - i])
+                            break;
+                        if (i == winningLength-1) {
+                            arr[0] = y + winningLength;
+                            arr[1] = x - winningLength;
+                            return arr;
+                        }
+                    }
+                    for (int i = 1; i <= winningLength-1; i++) {
+                        if (y - winningLength < 0 || y - winningLength >= tab.length || x - winningLength < 0 || x - winningLength >= tab.length)
+                            break;
+                        if (player != tab[y - i][x - i])
+                            break;
+                        if (i == winningLength-1) {
+                            arr[0] = y - winningLength;
+                            arr[1] = x - winningLength;
+                            return arr;
+                        }
+                    }
+                }
+        return arr;
     }
 
     private void movePC(char[][] tab) {
         // TODO: 23.03.2020 smart strategy
         int len = tab.length;
-        for (int i = 0; i < len; i++) {
-            for (int j = 0; j < len; j++) {
-                if (tab[i][j] == EMPTY) {
-                    tab[i][j] = DOT_O;
-                    printTab(tab);
-                    return;
+        int[] dan = Danger(tab,DOT_X);
+        int[] arr = {-1,-1};
+        if(dan[0]==arr[0]&&dan[1]==arr[1]|| tab[dan[0]][dan[1]] == DOT_O ) {
+            for (int i = 0; i < len; i++) {
+                for (int j = 0; j < len; j++) {
+                    if (tab[i][j] == EMPTY) {
+                        tab[i][j] = DOT_O;
+                        printTab(tab);
+                        return;
+                    }
                 }
             }
+        }
+        else{
+            tab[dan[0]][dan[1]] = DOT_O;
+            printTab(tab);
+            return;
         }
     }
 
